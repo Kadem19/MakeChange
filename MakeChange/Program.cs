@@ -7,21 +7,42 @@ namespace MakeChange
         static void Main(string[] args)
         {
             double purchasePrice = GetAmount("Enter the Purchase Price");
-            double paymentAmount = GetAmount("Enter the Payment Amount");
 
-            if (paymentAmount < purchasePrice)
+            while (purchasePrice <= 0)
             {
-                Console.WriteLine("Oops that is not enough money to cover the purchase.");
+                GetAmount("Please enter a Purchase Price greater than 0!");
+                break;
             }
 
-            else if (paymentAmount == purchasePrice)
+            double paymentAmount = GetAmount("Enter the Payment Amount");
+
+            
+            while (paymentAmount <= purchasePrice)
+            {
+                Console.WriteLine("Oops your payment amount does not cover the purchase Amount. Please try again!");
+
+                purchasePrice = GetAmount("Enter the Purchase Price");
+
+                while (purchasePrice <= 0)
+                {
+                    GetAmount("Please enter a Purchase Price greater than 0!");
+                    break;
+                }
+
+                paymentAmount = GetAmount("Enter the Payment Amount");
+                break;
+            }
+
+            
+
+            if (paymentAmount == purchasePrice)
             {
                 Console.WriteLine("Thank you. No change needed!");
             }
-           
-            else
-            {
 
+            else
+
+            {
                 double changeDue;
                 changeDue = getChange(paymentAmount, purchasePrice);
 
@@ -41,6 +62,7 @@ namespace MakeChange
 
                 changeDue = CalculateDenomination(changeDue, 0.01, "Pennies");
             }
+            
         }
 
 
