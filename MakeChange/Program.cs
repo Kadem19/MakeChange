@@ -10,30 +10,28 @@ namespace MakeChange
 
             while (purchasePrice <= 0)
             {
-                GetAmount("Please enter a Purchase Price greater than 0!");
-                break;
+                Console.WriteLine("Please enter a Purchase Price greater than 0!");
+                purchasePrice = GetAmount("");
             }
 
             double paymentAmount = GetAmount("Enter the Payment Amount");
 
-            
-            while (paymentAmount <= purchasePrice)
+            while (paymentAmount < purchasePrice)
             {
                 Console.WriteLine("Oops your payment amount does not cover the purchase Amount. Please try again!");
 
                 purchasePrice = GetAmount("Enter the Purchase Price");
 
+
                 while (purchasePrice <= 0)
                 {
-                    GetAmount("Please enter a Purchase Price greater than 0!");
-                    break;
+                    Console.WriteLine("Please enter a Purchase Price greater than 0!");
+                    purchasePrice = GetAmount("");
+                    continue;
                 }
 
                 paymentAmount = GetAmount("Enter the Payment Amount");
-                break;
             }
-
-            
 
             if (paymentAmount == purchasePrice)
             {
