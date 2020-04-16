@@ -6,31 +6,25 @@ namespace MakeChange
     {
         static void Main(string[] args)
         {
-            double purchasePrice = GetAmount("Enter the Purchase Price");
+            double purchasePrice = GetAmount("Enter the Purchase Price", "Please enter a Purchase Price greater than 0!");
 
-            while (purchasePrice <= 0)
-            {
-                Console.WriteLine("Please enter a Purchase Price greater than 0!");
-                purchasePrice = GetAmount("");
-            }
 
-            double paymentAmount = GetAmount("Enter the Payment Amount");
+            double paymentAmount = GetAmount("Enter the Payment Amount", "Please enter a Payment Amount greater than 0!");
 
             while (paymentAmount < purchasePrice)
             {
                 Console.WriteLine("Oops your payment amount does not cover the purchase Amount. Please try again!");
 
-                purchasePrice = GetAmount("Enter the Purchase Price");
+                purchasePrice = GetAmount("Enter the Purchase Price", "Please enter a purchase Price greater than 0!");
 
 
                 while (purchasePrice <= 0)
                 {
-                    Console.WriteLine("Please enter a Purchase Price greater than 0!");
-                    purchasePrice = GetAmount("");
+                    Console.WriteLine("Please enter a Purchase Price greater than 0!","Please enter a Purchase Price greater than 0!");
                     continue;
                 }
 
-                paymentAmount = GetAmount("Enter the Payment Amount");
+                paymentAmount = GetAmount("Enter the Payment Amount", "Please enter a Payment Amount greater than 0!");
             }
 
             if (paymentAmount == purchasePrice)
@@ -60,7 +54,7 @@ namespace MakeChange
 
                 changeDue = CalculateDenomination(changeDue, 0.01, "Pennies");
             }
-            
+
         }
 
 
@@ -79,16 +73,35 @@ namespace MakeChange
             Console.Write("Payment Amount: ");
             double paymentAmount;
             paymentAmount = double.Parse(Console.ReadLine());
-            return paymentAmount; 
+            return paymentAmount;
         }
 
 
 
-        static double GetAmount(string prompt)
+        static double GetAmount(string prompt, string prompt2)
         {
-            Console.WriteLine(prompt);
             double amount;
-            amount = double.Parse(Console.ReadLine());
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine(prompt);
+                    amount = double.Parse(Console.ReadLine());
+                    if (amount >= 0)
+                    {
+                        break;
+                    }
+
+                    if (amount <= 0)
+                    {
+                        Console.WriteLine(prompt2);
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a valid dollar amount!");
+                }
+            }
             return amount;
         }
 
@@ -129,7 +142,7 @@ namespace MakeChange
             Console.WriteLine($"Pennies: {pennies}");
             changeDue %= .01;
         }
-        
+
         static double getChange(double paymentAmount, double purchaseAmount)
         {
             double changeDue = paymentAmount - purchaseAmount;
@@ -137,18 +150,18 @@ namespace MakeChange
             return changeDue;
         }
 
-        static double CalculateDenomination (double changeDue, double denomAmount, string denomTitle)
+        static double CalculateDenomination(double changeDue, double denomAmount, string denomTitle)
         {
             int denomName = 0;
             denomName = (int)(changeDue / denomAmount);
-            
+
             if (denomName != 0)
             {
                 Console.WriteLine("{0}: {1}", denomTitle, denomName);
                 changeDue %= denomAmount;
                 Console.WriteLine($"Change Due: ${changeDue}");
-            }    
-            return changeDue;  
+            }
+            return changeDue;
         }
     }
 }
